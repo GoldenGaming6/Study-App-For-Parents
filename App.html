@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>पढ़ाई साथी</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef3fb;--card:#fff;--ink:#14213d;--mute:#5b6784;--line:#d5deee;--pri:#1d3fa8;--pri-ink:#fff;--hl:#ffd23f;--ok:#1b8a5a;--bad:#c93a3a;--soft:#e6edfb}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1424;--card:#161e33;--ink:#eaf0ff;--mute:#9aa7c7;--line:#27324f;--pri:#7d9bff;--pri-ink:#0b1430;--ok:#4fd49a;--bad:#ff7b7b;--soft:#1c2646}}
+:root[data-theme="dark"]{--bg:#0e1424;--card:#161e33;--ink:#eaf0ff;--mute:#9aa7c7;--line:#27324f;--pri:#7d9bff;--pri-ink:#0b1430;--ok:#4fd49a;--bad:#ff7b7b;--soft:#1c2646}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 'Noto Sans Devanagari','Nirmala UI','Mangal',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+#app{max-width:480px;margin:0 auto;padding:14px 14px 96px}
+h1{font-size:30px;margin:6px 0 0;line-height:1.3}
+h2{font-size:17px;margin:0 0 10px}
+p{margin:0}
+.mute,small{color:var(--mute)}
+.hero{text-align:center;padding:26px 0 14px}
+.logo{font-size:46px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--soft);padding:5px;border-radius:14px;margin-bottom:12px}
+.seg button{border:0;background:none;color:var(--ink);font:inherit;font-weight:600;padding:10px;border-radius:10px;cursor:pointer}
+.seg .on{background:var(--pri);color:var(--pri-ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+label{display:block;font-weight:600;margin:10px 0 4px}
+input{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:11px 12px}
+input:focus,button:focus-visible{outline:3px solid var(--hl);outline-offset:1px}
+.btn{display:block;width:100%;margin-top:12px;border:0;border-radius:12px;padding:13px;font:inherit;font-weight:700;background:var(--pri);color:var(--pri-ink);cursor:pointer}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn.stop{background:var(--bad);color:#fff}
+.mini{border:0;border-radius:10px;padding:7px 12px;font:inherit;font-size:14px;font-weight:600;background:var(--soft);color:var(--ink);cursor:pointer;white-space:nowrap}
+.mini.pri{background:var(--pri);color:var(--pri-ink)}
+header{display:flex;justify-content:space-between;align-items:center;padding:6px 2px 14px}
+header small{display:block;line-height:1.2}
+header b{font-size:20px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:6px 0}
+.bar{height:10px;background:var(--soft);border-radius:9px;overflow:hidden;margin:2px 0 10px}
+.bar i{display:block;height:100%;background:var(--ok);border-radius:9px}
+.c{text-align:center}
+.time{font-size:68px;font-weight:700;line-height:1.15;font-variant-numeric:tabular-nums;display:inline-block;background:linear-gradient(transparent 62%,var(--hl) 62%,var(--hl) 90%,transparent 90%);padding:0 10px}
+.g,.app{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.g:last-child,.app:last-child{border:0}
+.g span{flex:1}
+.g.done span{text-decoration:line-through;color:var(--mute)}
+.ck,.x{border:0;background:none;font-size:22px;cursor:pointer;padding:2px}
+.x{font-size:16px;color:var(--mute)}
+.ic{font-size:28px}
+.app div{flex:1;line-height:1.3}
+.app small{display:block}
+.ok{color:var(--ok)!important}.bad{color:var(--bad)!important}
+.add{display:flex;gap:8px;align-items:center}
+.sw{width:48px;height:28px;border:0;border-radius:20px;background:var(--line);position:relative;cursor:pointer;flex:none}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .15s}
+.sw.on{background:var(--bad)}.sw.on::after{left:23px}
+.em{font-size:14px;word-break:break-all;text-align:right}
+.note{font-size:14px;color:var(--mute);background:var(--soft);border-radius:12px;padding:12px}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
+nav div{display:flex;width:100%;max-width:480px}
+nav button{flex:1;border:0;background:none;color:var(--mute);font:inherit;font-size:13px;padding:6px 2px;cursor:pointer;line-height:1.3}
+nav button span{display:block;font-size:22px}
+nav .on{color:var(--pri);font-weight:700}
+.ov{position:fixed;inset:0;background:rgba(10,15,30,.6);display:flex;align-items:center;justify-content:center;padding:18px;z-index:20}
+.m{width:100%;max-width:380px;margin:0}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;z-index:30;display:none;max-width:90%;text-align:center}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal"></div>
+<div id="toast"></div>
+<script>
+const APPS0=[["यूट्यूब","▶️"],["फ्री फायर / BGMI","🎮"],["इंस्टाग्राम","📸"],["फेसबुक","👥"],["स्नैपचैट","👻"],["नेटफ्लिक्स","🎬"],["लूडो / कैंडी क्रश","🎲"]];
+let mem=null;
+function init(){return{pw:"12345",email:"ayaanahmedpp2@gmail.com",cred:null,name:"",goals:[{t:"गणित के 10 सवाल हल करना",d:false},{t:"विज्ञान का एक अध्याय पढ़ना",d:false}],apps:APPS0.map(a=>({n:a[0],i:a[1],b:true,until:0})),mins:0,target:120}}
+function load(){try{const s=localStorage.getItem("padhai");if(s)return JSON.parse(s)}catch(e){}return mem||init()}
+let S=load();
+function save(){mem=S;try{localStorage.setItem("padhai",JSON.stringify(S))}catch(e){}}
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const mm=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+let role=null,tab="home",lt="s",padmin=false,modal=null,tm=null,left=1500,fails=0,lockT=0,tt0;
+const isOpen=a=>!a.b||(a.until>Date.now()&&!tm);
+function toast(t){const e=$("toast");e.textContent=t;e.style.display="block";clearTimeout(tt0);tt0=setTimeout(()=>e.style.display="none",2600)}
+
+const b64=b=>btoa(String.fromCharCode(...new Uint8Array(b)));
+const ub=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function regBio(){
+ try{const c=await navigator.credentials.create({publicKey:{challenge:crypto.getRandomValues(new Uint8Array(32)),rp:{name:"पढ़ाई साथी"},user:{id:crypto.getRandomValues(new Uint8Array(16)),name:S.email,displayName:"अभिभावक"},pubKeyCredParams:[{type:"public-key",alg:-7},{type:"public-key",alg:-257}],authenticatorSelection:{authenticatorAttachment:"platform",userVerification:"required"},timeout:60000}});
+  S.cred=b64(c.rawId);save();toast("✅ फिंगरप्रिंट / फेस चालू हो गया");render()}
+ catch(e){toast("❌ इस फोन या ब्राउज़र में फिंगरप्रिंट नहीं चला। पासवर्ड इस्तेमाल करें")}
+}
+async function bio(){
+ try{await navigator.credentials.get({publicKey:{challenge:crypto.getRandomValues(new Uint8Array(32)),allowCredentials:[{type:"public-key",id:ub(S.cred),transports:["internal"]}],userVerification:"required",timeout:60000}});return true}
+ catch(e){return false}
+}
+function pwOk(v){
+ const now=Date.now();
+ if(now<lockT){toast("⏳ "+Math.ceil((lockT-now)/1000)+" सेकंड बाद कोशिश करें");return false}
+ if(v===S.pw){fails=0;return true}
+ if(++fails>=5){lockT=now+30000;fails=0}
+ toast("❌ गलत पासवर्ड");return false;
+}
+function ask(cb){modal={cb};render()}
+function finishAuth(){const cb=modal.cb;modal=null;cb();save();render()}
+function goParent(){role="p";padmin=true;tab="par";render()}
+
+function loginView(){return `<div class="hero"><div class="logo">📚</div><h1>पढ़ाई साथी</h1><p class="mute">पहले पढ़ाई, फिर खेल</p></div>
+<div class="seg"><button class="${lt=="s"?"on":""}" data-a="lt" data-i="s">🎒 विद्यार्थी</button><button class="${lt=="p"?"on":""}" data-a="lt" data-i="p">👩 माता-पिता</button></div>
+<div class="card">`+(lt=="s"?`<label>आपका नाम</label><input id="nm" placeholder="अपना नाम लिखें" value="${esc(S.name)}"><button class="btn" data-a="ls">लॉगिन करें</button>`:`<label>अभिभावक का ईमेल</label><input id="em" type="email" value="${esc(S.email)}"><label>पासवर्ड</label><input id="pw" type="password" placeholder="पासवर्ड डालें"><button class="btn" data-a="lp">🔐 लॉगिन करें</button>${S.cred?`<button class="btn ghost" data-a="lb">👆 फिंगरप्रिंट / फेस से खोलें</button>`:""}`)+`</div>`}
+
+function head(){return `<header><div><small>नमस्ते 👋</small><b>${role=="p"?"अभिभावक":esc(S.name)}</b></div><button class="mini" data-a="out">बाहर निकलें</button></header>`}
+function nav(){const T=[["home","🏠","होम"],["goals","🎯","लक्ष्य"],["apps","🔒","ऐप्स"],["par","⚙️","अभिभावक"]];
+ return `<nav><div>${T.map(t=>`<button class="${tab==t[0]?"on":""}" data-a="tab" data-i="${t[0]}"><span>${t[1]}</span>${t[2]}</button>`).join("")}</div></nav>`}
+
+function view(){
+ if(tab=="home"){
+  const d=S.goals.filter(g=>g.d).length,n=S.goals.length,p1=n?Math.round(d*100/n):0,p2=Math.min(100,Math.round(S.mins*100/S.target));
+  return `<div class="card"><h2>आज की प्रगति</h2><div class="row"><span>🎯 लक्ष्य पूरे</span><b>${d}/${n}</b></div><div class="bar"><i style="width:${p1}%"></i></div><div class="row"><span>⏱️ पढ़ाई का समय</span><b>${S.mins}/${S.target} मिनट</b></div><div class="bar"><i style="width:${p2}%"></i></div></div>
+<div class="card c"><h2>📖 फोकस टाइमर</h2><div class="time" id="tm">${mm(left)}</div><p class="mute">${tm?"फोकस चालू है। सभी बंद ऐप्स लॉक रहेंगे":"25 मिनट पढ़ो। इस दौरान कोई ऐप नहीं खुलेगा"}</p><button class="btn ${tm?"stop":""}" data-a="tt">${tm?"⏹️ रोकें":"▶️ पढ़ाई शुरू करें"}</button></div>`}
+ if(tab=="goals"){
+  return `<div class="card"><h2>🎯 मेरे लक्ष्य</h2><div class="add"><input id="ng" placeholder="नया लक्ष्य लिखें"><button class="mini pri" data-a="ag">जोड़ें</button></div></div>
+<div class="card">${S.goals.length?S.goals.map((g,i)=>`<div class="g ${g.d?"done":""}"><button class="ck" data-a="tg" data-i="${i}" aria-label="पूरा करें">${g.d?"✅":"⬜"}</button><span>${esc(g.t)}</span><button class="x" data-a="dg" data-i="${i}" aria-label="हटाएँ">✕</button></div>`).join(""):`<p class="mute">अभी कोई लक्ष्य नहीं है। ऊपर से पहला लक्ष्य जोड़ें।</p>`}</div>`}
+ if(tab=="apps"){
+  return `<div class="note" style="margin-bottom:12px">ऐप खोलने के लिए माँ का पासवर्ड या फिंगरप्रिंट / फेस चाहिए। खुलने के बाद 30 मिनट तक चलेगा।</div><div class="card">${S.apps.map((a,i)=>{const o=isOpen(a),r=a.until>Date.now()?Math.ceil((a.until-Date.now())/60000):0;
+   return `<div class="app"><span class="ic">${a.i}</span><div><b>${esc(a.n)}</b><small class="${!a.b||o?"ok":"bad"}">${!a.b?"ब्लॉक नहीं है":o?"✅ खुला, "+r+" मिनट बाकी":"🔒 बंद है"}</small></div>${!a.b?"":o?`<button class="mini" data-a="lk" data-i="${i}">बंद करें</button>`:`<button class="mini pri" data-a="op" data-i="${i}">🔑 खोलें</button>`}</div>`}).join("")}</div>`}
+ if(!padmin){return `<div class="card c"><div class="logo">🔐</div><h2>अभिभावक सेटिंग</h2><p class="mute">यह हिस्सा सिर्फ़ माँ या पापा के लिए है</p><button class="btn" data-a="pa">पासवर्ड / फिंगरप्रिंट डालें</button></div>`}
+ return `<div class="card"><h2>👩 अभिभावक</h2><div class="row"><span>ईमेल</span><b class="em">${esc(S.email)}</b></div></div>
+<div class="card"><h2>🚫 ब्लॉक होने वाले ऐप</h2>${S.apps.map((a,i)=>`<div class="row"><span>${a.i} ${esc(a.n)}</span><button class="sw ${a.b?"on":""}" data-a="tb" data-i="${i}" aria-label="ब्लॉक चालू या बंद"></button></div>`).join("")}<div class="add" style="margin-top:8px"><input id="na" placeholder="नया ऐप या गेम का नाम"><button class="mini pri" data-a="aa">जोड़ें</button></div></div>
+<div class="card"><h2>⏱️ रोज़ का पढ़ाई लक्ष्य</h2><div class="add"><input id="tgt" type="number" min="10" value="${S.target}"><button class="mini pri" data-a="st">सेव</button></div><small>मिनट प्रतिदिन</small></div>
+<div class="card"><h2>🔐 सुरक्षा</h2><button class="btn ghost" style="margin-top:0" data-a="rb">${S.cred?"✅ फिंगरप्रिंट / फेस चालू है। दोबारा जोड़ें":"👆 फिंगरप्रिंट / फेस जोड़ें"}</button><label>नया पासवर्ड</label><div class="add"><input id="np" type="password" placeholder="कम से कम 4 अक्षर"><button class="mini pri" data-a="cp">बदलें</button></div></div>
+<div class="note">ℹ️ यह वेब वर्ज़न है। दूसरे ऐप को असल में बंद करने के लिए Android APK चाहिए। यहाँ आप पूरी सेटिंग और अनलॉक का तरीका देख सकते हैं।</div>`}
+
+function modalView(){return `<div class="ov"><div class="card m"><h2>🔐 अभिभावक की अनुमति</h2><p class="mute">माँ का पासवर्ड डालें या फिंगरप्रिंट / फेस लगाएँ</p><input id="mpw" type="password" placeholder="पासवर्ड" style="margin-top:10px"><button class="btn" data-a="mok">खोलें</button>${S.cred?`<button class="btn ghost" data-a="mbio">👆 फिंगरप्रिंट / फेस</button>`:""}<button class="btn ghost" data-a="mx">रद्द करें</button></div></div>`}
+
+function render(){
+ $("app").innerHTML=role?head()+"<main>"+view()+"</main>"+nav():loginView();
+ $("modal").innerHTML=modal?modalView():"";
+ if(modal&&$("mpw"))$("mpw").focus();
+}
+
+function tick(){left--;const e=$("tm");if(e)e.textContent=mm(left);if(left<=0){S.mins+=25;stopT();save();toast("🎉 शाबाश! 25 मिनट पूरे हुए");render()}}
+function stopT(){clearInterval(tm);tm=null;left=1500}
+
+async function act(a,i){
+ const v=id=>($(id)||{value:""}).value.trim();
+ if(a=="lt"){lt=i;render()}
+ else if(a=="ls"){const n=v("nm");if(!n){toast("पहले अपना नाम लिखें");return}S.name=n;role="s";tab="home";padmin=false;save();render()}
+ else if(a=="lp"){if(v("em").toLowerCase()!==S.email.toLowerCase()){toast("❌ ईमेल सही नहीं है");return}if(pwOk($("pw").value))goParent()}
+ else if(a=="lb"){if(await bio())goParent();else toast("❌ फिंगरप्रिंट / फेस मेल नहीं खाया")}
+ else if(a=="out"){role=null;padmin=false;render()}
+ else if(a=="tab"){tab=i;if(role!="p"&&i!="par")padmin=false;render()}
+ else if(a=="tt"){if(tm){const el=Math.floor((1500-left)/60);S.mins+=el;stopT();if(el)toast("आपने "+el+" मिनट पढ़ाई की")}else{tm=setInterval(tick,1000)}save();render()}
+ else if(a=="ag"){const t=v("ng");if(!t){toast("लक्ष्य लिखें");return}S.goals.push({t,d:false});save();render()}
+ else if(a=="tg"){S.goals[i].d=!S.goals[i].d;save();render()}
+ else if(a=="dg"){S.goals.splice(i,1);save();render()}
+ else if(a=="op"){if(tm){toast("फोकस चालू है। पहले पढ़ाई पूरी करें");return}ask(()=>{S.apps[i].until=Date.now()+1800000;toast("✅ 30 मिनट के लिए खुल गया")})}
+ else if(a=="lk"){S.apps[i].until=0;save();render()}
+ else if(a=="pa"){ask(()=>{padmin=true})}
+ else if(a=="tb"){S.apps[i].b=!S.apps[i].b;save();render()}
+ else if(a=="aa"){const n=v("na");if(!n){toast("ऐप का नाम लिखें");return}S.apps.push({n,i:"📱",b:true,until:0});save();render()}
+ else if(a=="st"){const n=parseInt(v("tgt"));if(!(n>=10)){toast("कम से कम 10 मिनट");return}S.target=n;save();toast("✅ सेव हो गया");render()}
+ else if(a=="rb"){regBio()}
+ else if(a=="cp"){const n=$("np").value;if(n.length<4){toast("पासवर्ड कम से कम 4 अक्षर का रखें");return}S.pw=n;save();toast("✅ पासवर्ड बदल गया");render()}
+ else if(a=="mok"){if(pwOk($("mpw").value))finishAuth()}
+ else if(a=="mbio"){if(await bio())finishAuth();else toast("❌ फिंगरप्रिंट / फेस मेल नहीं खाया")}
+ else if(a=="mx"){modal=null;render()}
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(b)act(b.dataset.a,b.dataset.i)});
+document.addEventListener("keydown",e=>{if(e.key=="Enter"){if(modal)act("mok");else if(!role)act(lt=="s"?"ls":"lp")}});
+setInterval(()=>{if(role&&tab=="apps"&&!modal)render()},20000);
+render();
+</script>
+</body>
+</html>
